@@ -1,16 +1,24 @@
-body {
-  background-color: beige;
+html,
+body,
+#main {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
-#header {
-  border: 5px solid blue;
-}
-
-img {
+#brand-image {
   height: 4rem;
   width: 4rem;
   margin: 0;
   padding: 0;
+  background-color: #f5f5dc;
+  opacity: 0.6;
+}
+
+#mapId {
+  height: 100%;
+  width: 100%;
 }
 
 /* Pre-Loader */
