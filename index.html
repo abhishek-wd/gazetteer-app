@@ -7,14 +7,20 @@
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
     <title> Gazetteer | A Geographical Index </title>
 
+    <meta name="description" content="AJAX/PHP/CURL/JSON/Leaflet Geolocation App">
+    <meta name="author" content="Abhishek Jha">
+
+    <!-- Favicon -->
     <link rel="icon" href="./favicon.ico">
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+    <!-- Leaflet -->
     <link rel="stylesheet" href="vendors/leaflet/leaflet.css">
+    <!-- Custom Style -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-
     <!-- Pre-Loader -->
     <div id="spinner"></div>
 
@@ -23,7 +29,9 @@
             <a class="navbar-brand mr-auto" href="#">
                 <img src="images/Logo.png" id="brand-image" alt="gazetteer-logo" />
             </a>
-            <!-- <div class="navbar-nav"> -->
+            <!-- <div class="alert alert-info mr-auto invisible p-0 py-md-12" role="alert" id="alert-box">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+            </div> -->
             <form class="form-inline">
                 <select class="custom-select custom-select-sm border border-success font-weight-bold text-success"
                     id="country">
@@ -117,9 +125,27 @@
                     <option value="Lusaka,ZM">Zambia</option>
                 </select>
             </form>
-            <!-- </div> -->
         </nav>
         <div id="mapId"></div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title"> </div>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="data-body"> </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-default"
+                            data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="vendors/jquery/jquery-3.5.1.min.js"></script>
@@ -134,7 +160,11 @@
             }
         });
     </script>
-    <script src="js/script.js"></script>
+
+    <script src="resources/countryBorders.geo.json" type="application/json"></script>
+    <!-- <script src="js/reset.js" type="module"></script> -->
+    <script src="js/script.js" type="module"></script>
+    <!-- <script src="js/getCurrentLocation.js"></script> -->
 </body>
 
 </html>
