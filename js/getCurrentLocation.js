@@ -1,31 +1,52 @@
-var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
+import { resetModal } from './reset.js';
+import { reverseGeocode } from './ajaxCalls.js';
+
+/* ***** Getting User Location ***** */
+
+// If Success
+export function onLocationFound(e) {
+    const lat = e.latlng.lat, lng = e.latlng.lng;
+
+    let countryISO;
+
+    reverseGeocode(lat, lng).done(function (result) {
+        countryISO = result[0]['CountryId'];
+        console.log(result); // Delete It
+    }).done(function () {
+        $('.modal-header').addClass('bg-success');
+        $('.modal-title').text('Location Detected');
+        $('#data-body').html(`Latitude: ${e.latlng.lat} <br> Longitude:
+         ${e.latlng.lng} <br> You Are In: ${countryISO}`).addClass('text-success');
+        $('.modal-footer button').addClass('btn-outline-success');
+        $('#myModal').modal('show');
+
+        // Closing the modal in 2 second, if not closed
+        // setTimeout(function () {
+        //     $('#myModal').modal('hide');
+        // }, 2000);
+
+        // Removing the temporarily added class
+        $('#myModal').on('hide.bs.modal', function () {
+            resetModal();
+        });
+    });
 }
 
-function success(pos) {
-    var crd = pos.coords;
+// If Failure
+export function onLocationError(e) {
+    $('.modal-header').addClass('bg-warning');
+    $('.modal-title').text(`Error Code [${e.code}]`);
+    $('#data-body').text(e.message).addClass('text-warning');
+    $('.modal-footer button').addClass('btn-outline-warning');
+    $('#myModal').modal('show');
 
-    // $("#alert-box")
-    // .text(`Your Current Position is: Latitude: ${crd.latitude} Longitude: ${crd.longitude}`)
-    // .removeClass("invisible");
+    // Closing the modal in 2 second, if not closed
+    setTimeout(function () {
+        $('#myModal').modal('hide');
+    }, 2000);
 
-    console.log('Your Current Position is:');
-    console.log(`Latitude: ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
+    // Removing the temporarily added class
+    $('#myModal').on('hide.bs.modal', function () {
+        resetModal();
+    });
 }
-
-function error(err) {
-    // console.warn(`ERROR(${err.code}): ${err.message}`);
-
-    jQuery(function($) { // Multiple jQuery Line inside javaScript Function
-        $("#alert-box").text(`${err.message} <br> Please Choose a Country`);
-        $("#alert-box").removeClass("invisible");
-        $("#alert-box").fadeTo(500,1);
-
-    }); 
-}
-
-navigator.geolocation.getCurrentPosition(success, error, options);
