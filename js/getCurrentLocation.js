@@ -1,5 +1,5 @@
 import { resetModal } from './reset.js';
-import { reverseGeocode } from './ajaxCalls.js';
+// import { reverseGeocode } from './ajaxCalls.js';
 
 /* ***** Getting User Location ***** */
 
@@ -7,29 +7,30 @@ import { reverseGeocode } from './ajaxCalls.js';
 export function onLocationFound(e) {
     const lat = e.latlng.lat, lng = e.latlng.lng;
 
+    alert("location Found"); // Delete This
     let countryISO;
 
-    reverseGeocode(lat, lng).done(function (result) {
-        countryISO = result[0]['CountryId'];
-        console.log(result); // Delete It
-    }).done(function () {
-        $('.modal-header').addClass('bg-success');
-        $('.modal-title').text('Location Detected');
-        $('#data-body').html(`Latitude: ${e.latlng.lat} <br> Longitude:
-         ${e.latlng.lng} <br> You Are In: ${countryISO}`).addClass('text-success');
-        $('.modal-footer button').addClass('btn-outline-success');
-        $('#myModal').modal('show');
+    // reverseGeocode(lat, lng).done(function (result) {
+    //     countryISO = result[0]['CountryId'];
+    //     console.log(result); // Delete It
+    // }).done(function () {
+    //     $('.modal-header').addClass('bg-success');
+    //     $('.modal-title').text('Location Detected');
+    //     $('#data-body').html(`Latitude: ${e.latlng.lat} <br> Longitude:
+    //      ${e.latlng.lng} <br> You Are In: ${countryISO}`).addClass('text-success');
+    //     $('.modal-footer button').addClass('btn-outline-success');
+    //     $('#myModal').modal('show');
 
-        // Closing the modal in 2 second, if not closed
-        // setTimeout(function () {
-        //     $('#myModal').modal('hide');
-        // }, 2000);
+    //     // Closing the modal in 2 second, if not closed
+    //     // setTimeout(function () {
+    //     //     $('#myModal').modal('hide');
+    //     // }, 2000);
 
-        // Removing the temporarily added class
-        $('#myModal').on('hide.bs.modal', function () {
-            resetModal();
-        });
-    });
+    //     // Removing the temporarily added class
+    //     $('#myModal').on('hide.bs.modal', function () {
+    //         resetModal();
+    //     });
+    // });
 }
 
 // If Failure
