@@ -1,9 +1,17 @@
 import { mainMap, wikiMap, darkMap, satMap } from './mapLayers.js';
 import { onLocationFound, onLocationError } from './getCurrentLocation.js';
+import { getCountryList, getCountryCode } from './ajaxCalls.js';
+
+// Creating the Select Menu
+getCountryList().then(result => {
+    result.forEach(country => {
+        $("#country").append(new Option(country, country));
+    })
+});
 
 // Creating the Map 
 const map = L.map('mapId', {
-    center: [51.505, -0.09],// [27.72, 85.33],
+    center: [51.505, -0.09],
     zoom: 15,
     layers: [mainMap]
 });
@@ -29,6 +37,8 @@ map.locate({ setView: true, maxZoom: 15 });
 map.on('locationfound', onLocationFound);
 map.on('locationerror', onLocationError);
 
+getCountryCode("Afghanistan");
+
 map.on('click', function (e) {
     $('#myModal').modal('show');
-})
+});
