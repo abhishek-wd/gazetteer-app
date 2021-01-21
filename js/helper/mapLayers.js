@@ -34,4 +34,11 @@ const baseMaps = {
     "Satellite": satMap
 }
 
-export { mainMap, baseMaps }
+clearMap = () => {
+    let container = L.DomUtil.get('mapId');
+    if (container != null) {
+        container._leaflet_id = null;
+    }
+}
+
+export { mainMap, baseMaps, clearMap }

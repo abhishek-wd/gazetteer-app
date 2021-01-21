@@ -32,37 +32,43 @@ export function getCountryBounds(countryCode) {
     return $.ajax({
         type: "GET",
         url: "resources/countryBorders.geo.json",
-        // async: false,
+        async: true,
         dataType: 'json'
     }).then(result => {
-        console.log('Received Country code:' + countryCode);
         var countryBounds = result['features'].filter((el) => {
             return el.properties.iso_a2 == countryCode;
         });
         return countryBounds;
     });
 }
+
 // Reverse Geocoding
-
-// export function reverseGeocode(lat, lng) {
-//     return $.ajax({
-//         url: "php/reverseGeocode.php",
-//         type: 'POST',
-//         dataType: 'json',
-//         data: {
-//             lat: lat,
-//             lng: lng
-//         },
-//         success: function (result) {
-//             return result;
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             if (jqXHR.status && jqXHR.status == 400) {
-//                 console.debug(jqXHR.responseText);
-//             } else {
-//                 console.error("Something went Wrong" + errorThrown);
-//             }
-//         }
-//     });
-// }
-
+export function reverseGeocode(lat, lng) {
+    return $.ajax({
+        url: "php/reverseGeocode.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: lat,
+            lng: lng
+        },
+        // success: function (result) {
+        //     console.log(result);
+        //     let countryCode = result[0]['CountryId']
+        //     console.log(countryCode);
+        //     return countryCode.toString();
+        // },
+        // error: function (jqXHR, textStatus, errorThrown) {
+        //     if (jqXHR.status && jqXHR.status == 400) {
+        //         console.debug(jqXHR.responseText);
+        //     } else {
+        //         console.error("Something went Wrong" + errorThrown);
+        //     }
+        // }
+    }).then(result => {
+        console.log(result);
+        let countryCode = result[0]['CountryId'];
+        console.log(countryCode);
+        return countryCode;
+    });
+}

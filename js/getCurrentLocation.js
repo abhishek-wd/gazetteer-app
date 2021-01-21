@@ -1,6 +1,6 @@
 import { getCountryBounds } from './ajaxCalls.js';
 import { boundStyle } from './helper/styles.js';
-import { resetModal } from './helper/reset.js';
+import { resetModal } from './helper/modal.js';
 // import { reverseGeocode } from './ajaxCalls.js';
 
 /* ***** Getting User Location ***** */
@@ -23,34 +23,10 @@ export let onLocationFound = e => {
     //     L.geoJSON(countryBounds, { style: boundStyle });
     // });
 
-    $('.modal-header').addClass('bg-success');
-    $('.modal-title').text('Location Detected');
-    $('#data-body').html(`Your Current Location: <br> Latitude: ${lat} <br> 
-        Longitude:${lng}`).addClass('text-success');
-    $('.modal-footer button').addClass('btn-outline-success');
-    $('#myModal').modal('show');
 
-    // Closing the modal in 2 second, if not closed
-    // setTimeout(function () {
-    //     $('#myModal').modal('hide');
-    // }, 2000);
-
-    // Removing the temporarily added class
-    // $('#myModal').on('hide.bs.modal', () => resetModal());
-    resetModal();
 }
 
 // If Failure
 export let onLocationError = e => {
-    $('.modal-header').addClass('bg-warning');
-    $('.modal-title').text(`Error Code [${e.code}]`);
-    $('#data-body').html(`${e.message} <br><br> <strong> Plese 
-        Select a Country to Continue!</strong>`).addClass('text-warning');
-    $('.modal-footer button').addClass('btn-outline-warning');
-    $('#myModal').modal('show');
 
-    // Closing the modal in 2 second, if not closed
-    setTimeout(() => $('#myModal').modal('hide'), 2000);
-
-    resetModal();
 }
