@@ -28,12 +28,14 @@ export function getCountryCode(countryName) {
 
 // Get Country Boundary coordinates from resources/countryBorders.geo.json
 export function getCountryBounds(countryCode) {
+
     return $.ajax({
         type: "GET",
-        url: "countryBorders.geo.json",
+        url: "resources/countryBorders.geo.json",
         // async: false,
         dataType: 'json'
     }).then(result => {
+        console.log('Received Country code:' + countryCode);
         var countryBounds = result['features'].filter((el) => {
             return el.properties.iso_a2 == countryCode;
         });

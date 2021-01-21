@@ -26,4 +26,12 @@ const mainMap = L.tileLayer(mapOpen, { attribution: attrOpen }),
     satMap = L.tileLayer(mapSat, { attribution: attrSat }),
     darkMap = L.tileLayer(mapDark, { attribution: attrDark });
 
-export { mainMap, wikiMap, satMap, darkMap }
+// Map Layers to Add to Control
+const baseMaps = {
+    "Default": mainMap,
+    "Clear Mode": wikiMap,
+    "Night Mode": darkMap,
+    "Satellite": satMap
+}
+
+export { mainMap, baseMaps }
