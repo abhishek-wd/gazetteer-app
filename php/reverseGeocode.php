@@ -1,29 +1,32 @@
 <?php
 
+$url = 'https://api.opencagedata.com/geocode/v1/json?q='.$_REQUEST['lat'].'+'.$_REQUEST['lng'].'&key=eb5c65dbcf89459d9d28504c2509a70b';
+
+$executionStartTime = microtime(true);
+
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-    CURLOPT_URL => 'https://geocodeapi.p.rapidapi.com/GetNearestCities?latitude='.$_REQUEST['lat'].'&longitude='.$_REQUEST['lng'].'&range=0',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => [
-        'x-rapidapi-host: geocodeapi.p.rapidapi.com',
-        'x-rapidapi-key: e591ba2632msh03f23a2fd6585c3p1b9f19jsne44a3585e91b',
-    ],
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true, // To store the returned value in a variable
+    CURLOPT_SSL_VERIFYPEER => false, // To ignore the website SSL certificate
 ]);
 
 $response = curl_exec($curl);
-$err = curl_error($curl);
+$error = curl_error($curl);
 
 curl_close($curl);
 
-if ($err) {
-    echo 'cURL Error #:'.$err;
+if ($error) {
+    echo 'cURL Error #:'.$error;
 } else {
-    echo $response;
+    $decode = json_decode($response, true);
+
+    $result['data'] = $decode['results'];
+    $result['status'] = $decode['status'];
+    $result['status']['description'] = 'Received from OpenCage';
+    $result['status']['returnedIn'] = round((microtime(true) - $executionStartTime) * 1000).'ms';
+
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode($result);
 }

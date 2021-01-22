@@ -16,10 +16,6 @@ const attrSat = 'Tiles &copy; Esri &mdash;';
 const mapDark = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 const attrDark = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
-// Toner - can only be added as layer to another map
-const tileToner = 'https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}';
-const attrToner = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
 // Individual Tile Layers
 const mainMap = L.tileLayer(mapOpen, { attribution: attrOpen }),
     wikiMap = L.tileLayer(mapWiki, { attribution: attrWiki }),
@@ -34,11 +30,4 @@ const baseMaps = {
     "Satellite": satMap
 }
 
-clearMap = () => {
-    let container = L.DomUtil.get('mapId');
-    if (container != null) {
-        container._leaflet_id = null;
-    }
-}
-
-export { mainMap, baseMaps, clearMap }
+export { mainMap, baseMaps }

@@ -10,7 +10,7 @@ let resetModal = () => {
     });
 }
 
-// Location Found
+// On Location Found
 export let getFoundModal = (lat, lng) => {
     $('.modal-header').addClass('bg-success');
     $('.modal-title').text('Location Detected');
@@ -20,14 +20,11 @@ export let getFoundModal = (lat, lng) => {
     $('#myModal').modal('show');
 
     // Closing the modal in 2 second, if not closed
-    // setTimeout(function () {
-    //     $('#myModal').modal('hide');
-    // }, 2000);
-
+    setTimeout(() => $('#myModal').modal('hide'), 2000);
     resetModal();
 }
 
-// Location Error
+// On Location Error
 export let getErrorModal = (e) => {
     $('.modal-header').addClass('bg-warning');
     $('.modal-title').text(`Error Code [${e.code}]`);
@@ -38,7 +35,6 @@ export let getErrorModal = (e) => {
 
     // Closing the modal in 2 second, if not closed
     setTimeout(() => $('#myModal').modal('hide'), 2000);
-
     resetModal();
 }
 
