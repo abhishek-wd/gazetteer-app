@@ -1,7 +1,7 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
 import { boundStyle } from './helper/styles.js';
-import { getFoundModal, getErrorModal } from './helper/modal.js';
-import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode } from './ajaxCalls.js';
+import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
+import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode, getCountryInfo } from './ajaxCalls.js';
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -11,7 +11,7 @@ getCountryList().then(result => {
 });
 
 /* ***** Creating the Map ***** */
-const map = L.map('mapId', { layers: [mainMap] }).fitWorld();
+const map = L.map('map-id', { layers: [mainMap] }).fitWorld();
 
 L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
 
@@ -31,13 +31,25 @@ let highlightBounds = countryCode => {
     });
 }
 
+// Get Modal Containing Country Info
+let displayInfo = countryCode => {
+    // alert(`Under Construction - Country Code is: ${countryCode}`);
+    getCountryInfo(countryCode).then(result => {
+        getInfoModal(result);
+        // setTimeout(() => $('#myModal').modal('hide'), 2000);
+    });
+}
+
 /* ***** Getting User Location ***** */
 map.locate({ setView: true, maxZoom: 5 });
 
 map.on('locationfound', (e) => {
     const lat = e.latlng.lat, lng = e.latlng.lng;
     getFoundModal(lat, lng);
-    reverseGeocode(lat, lng).then(countryCode => highlightBounds(countryCode));
+    reverseGeocode(lat, lng).then(countryCode => {
+        highlightBounds(countryCode);
+        //displayInfo(countryCode);
+    });
     map.addLayer(bounds);
 });
 
@@ -46,7 +58,12 @@ map.on('locationerror', getErrorModal);
 
 /* ***** Click a Country on Map ***** */
 map.on('click', (e) => {
-    reverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => highlightBounds(countryCode));
+    // reverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
+    //     highlightBounds(countryCode);
+    //     displayInfo(countryCode);
+    // });
+    // Just to check modal
+    $('#my-modal').modal('show');
 });
 
 
@@ -54,6 +71,9 @@ map.on('click', (e) => {
 $('#country').change(() => {
     let countryName = $('#country').val();
 
-    getCountryCode(countryName).then(countryCode => highlightBounds(countryCode));
+    getCountryCode(countryName).then(countryCode => {
+        highlightBounds(countryCode);
+        displayInfo(countryCode);
+    });
     map.addLayer(bounds);
 });
