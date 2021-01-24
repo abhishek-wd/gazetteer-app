@@ -2,13 +2,11 @@
 
 // Reset Modal
 let resetModal = () => {
-    $('#my-modal').on('hide.bs.modal', () => {
-        $('.modal-header').removeClass().addClass('modal-header');
-        $('#modal-flag').attr({ src: '', alt: '' });
-        $('.modal-title').text('');
-        $('#data-body').html('').removeClass();
-        $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
-    });
+    $('.modal-header').removeClass().addClass('modal-header');
+    $('#modal-flag').attr({ src: '', alt: '' });
+    $('.modal-title').text('');
+    $('#data-body').html('').removeClass();
+    $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
 }
 
 // On Location Found
@@ -22,7 +20,7 @@ export let getFoundModal = (lat, lng) => {
 
     // Closing the modal in 2 second, if not closed
     setTimeout(() => $('#my-modal').modal('hide'), 2000);
-    resetModal();
+    $('#my-modal').on('hide.bs.modal', resetModal);
 }
 
 // On Location Error
@@ -36,7 +34,7 @@ export let getErrorModal = e => {
 
     // Closing the modal in 2 second, if not closed
     setTimeout(() => $('#my-modal').modal('hide'), 2000);
-    resetModal();
+    $('#my-modal').on('hide.bs.modal', resetModal);
 }
 
 // To Display Information
@@ -50,6 +48,7 @@ export let getInfoModal = result => {
     });
     $(".modal-title").text(countryName).addClass('text-secondary font-weight-bolder mt-1');
 
+    // $('#country-info').show(); // Check if required or not
     $('#my-modal').modal('show');
 
     $('#my-modal').on('hide.bs.modal', () => {

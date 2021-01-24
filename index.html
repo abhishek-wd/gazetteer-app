@@ -47,9 +47,9 @@
                             <span>&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body px-0">
+                    <div class="modal-body">
                         <div id="data-body"> </div>
-                        <div class="container-fluid" id="country-info">
+                        <div class="container-fluid px-0" id="country-info">
                             <ul class="nav nav-tabs nav-fill mb-2" id="my-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a href="#home" class="nav-link active" id="home-tab" data-toggle="tab"
@@ -81,6 +81,7 @@
                 $('#spinner').delay(200).fadeOut('slow', function () {
                     $(this).remove();
                 })
+                $('#country-info').hide();
             }
         });
     </script>

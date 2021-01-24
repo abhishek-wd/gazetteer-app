@@ -73,7 +73,7 @@ $('#country').change(() => {
 
     getCountryCode(countryName).then(countryCode => {
         highlightBounds(countryCode);
-        displayInfo(countryCode);
+        //    displayInfo(countryCode);
     });
     map.addLayer(bounds);
 });
