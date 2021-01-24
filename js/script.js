@@ -1,6 +1,6 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
 import { boundStyle } from './helper/styles.js';
-import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
+import { getFoundModal, getErrorModal } from './helper/modal.js';
 import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode, getCountryInfo } from './ajaxCalls.js';
 
 /* ***** Creating the Select Menu ***** */
@@ -63,7 +63,7 @@ map.on('click', (e) => {
     //     displayInfo(countryCode);
     // });
     // Just to check modal
-    $('#my-modal').modal('show');
+    // $('#my-modal').modal('show');
 });
 
 

@@ -38,25 +38,25 @@ export let getErrorModal = e => {
 }
 
 // To Display Information
-export let getInfoModal = result => {
-    const countryCode = result.data.alpha2Code;
-    const countryName = result.data.name;
+// export let getInfoModal = result => {
+//     const countryCode = result.data.alpha2Code;
+//     const countryName = result.data.name;
 
-    $('#flag').attr({
-        src: `https://www.countryflags.io/${countryCode}/shiny/32.png`,
-        alt: countryName
-    });
-    $(".modal-title").text(countryName).addClass('text-secondary font-weight-bolder mt-1');
+//     $('#flag').attr({
+//         src: `https://www.countryflags.io/${countryCode}/shiny/32.png`,
+//         alt: countryName
+//     });
+//     $(".modal-title").text(countryName).addClass('text-secondary font-weight-bolder mt-1');
 
-    // $('#country-info').show(); // Check if required or not
-    $('#my-modal').modal('show');
+//     // $('#country-info').show(); // Check if required or not
+//     $('#my-modal').modal('show');
 
-    $('#my-modal').on('hide.bs.modal', () => {
-        $('.modal-header').removeClass().addClass('modal-header');
-        $('#flag').attr({ src: '', alt: '' });
-        $('.modal-title').text('').removeClass();
-        $('#data-body').html('').removeClass();
-        $('#country-info').hide();
-        $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
-    });
-}
+//     $('#my-modal').on('hide.bs.modal', () => {
+//         $('.modal-header').removeClass().addClass('modal-header');
+//         $('#flag').attr({ src: '', alt: '' });
+//         $('.modal-title').text('').removeClass();
+//         $('#data-body').html('').removeClass();
+//         $('#country-info').hide();
+//         $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
+//     });
+// }
