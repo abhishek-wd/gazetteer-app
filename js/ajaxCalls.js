@@ -28,7 +28,6 @@ export let getCountryBounds = countryCode => {
     }).then(result => result['features'].filter(el => el.properties.iso_a2 == countryCode));
 }
 
-// Reverse Geocoding
 export let reverseGeocode = (lat, lng) => {
     return $.ajax({
         type: "POST",
@@ -47,7 +46,6 @@ export let reverseGeocode = (lat, lng) => {
     }).then(result => result.data[0].components['ISO_3166-1_alpha-2']);
 }
 
-// Reverse Geocoding
 export let getCountryInfo = (countryCode) => {
     return $.ajax({
         type: "POST",
@@ -65,3 +63,21 @@ export let getCountryInfo = (countryCode) => {
         }
     }).then(result => result);
 }
+
+// export let getNews = (countryName) => {
+//     return $.ajax({
+//         type: "POST",
+//         url: "php/getNews.php",
+//         dataType: 'json',
+//         data: {
+//             countryName
+//         },
+//         error: (jqXHR, textStatus, errorThrown) => {
+//             if (jqXHR.status && jqXHR.status == 400) {
+//                 console.debug(`Bad Request: ${jqXHR.responseText}`);
+//             } else {
+//                 console.error(`News Not Found: ${textStatus} - ${errorThrown}`);
+//             }
+//         }
+//     }).then(result => console.log(result));
+// }

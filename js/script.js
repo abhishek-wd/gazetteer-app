@@ -1,7 +1,7 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
 import { boundStyle } from './helper/styles.js';
 import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
-import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode, getCountryInfo } from './ajaxCalls.js';
+import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode, getCountryInfo, getNews } from './ajaxCalls.js';
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -28,14 +28,15 @@ let highlightBounds = countryCode => {
     getCountryBounds(countryCode).then(countryBounds => {
         bounds.addLayer(L.geoJSON(countryBounds, { style: boundStyle }));
         map.fitBounds(bounds.getBounds());
+        map.addLayer(bounds); // Testing Phase
     });
 }
 
 // Get Modal Containing Country Info
 let displayInfo = countryCode => {
-    // alert(`Under Construction - Country Code is: ${countryCode}`);
     getCountryInfo(countryCode).then(result => {
         getInfoModal(result);
+        getNews(result.data.name);
         // setTimeout(() => $('#myModal').modal('hide'), 2000);
     });
 }
@@ -50,7 +51,7 @@ map.on('locationfound', (e) => {
         highlightBounds(countryCode);
         displayInfo(countryCode);
     });
-    map.addLayer(bounds);
+    // map.addLayer(bounds);
 });
 
 map.on('locationerror', getErrorModal);

@@ -43,27 +43,26 @@ export let getInfoModal = result => {
         src: `https://www.countryflags.io/${country.alpha2Code}/shiny/32.png`,
         alt: countryName
     });
-
-    if (countryName != nativeName) {
-        $(".modal-title").text(`${countryName} ( ${nativeName} )`)
+    if (countryName.includes(nativeName)) {
+        $(".modal-title").text(nativeName);
+    } else if (countryName != nativeName) {
+        $(".modal-title").text(`${countryName} ( ${nativeName} )`);
     } else {
         $(".modal-title").text(countryName).addClass('text-secondary font-weight-bolder mt-1');
     }
-
-    $('#capital').text(result.data.capital);
+    $('#capital').text(country.capital);
     $('#region').text(`${country.region} - ${country.subregion}`);
-    $('#population').text((result.data.population).toLocaleString());
-
+    $('#population').text((country.population).toLocaleString());
     if (language.name != language.nativeName) {
         $('#language').text(`${language.name} ( ${language.nativeName} )`);
     } else {
         $('#language').text(language.name);
     }
-
     $('#currency').text(`${currency.code} ( ${currency.symbol} ) - ${currency.name}`);
-    $('#area').html(`${(result.data.area).toLocaleString()} km<sup>2</sup>`);//} `);
-    $('#ccode').text(`+${result.data.callingCodes[0]}`);
-    $('#demonym').text(result.data.demonym);
+    $('#demonym').text(country.demonym);
+    $('#time-zone').text(country.timezones[0]);
+    $('#intl-code').text(`+${country.callingCodes[0]}`);
+    $('#area').html(`${(country.area).toLocaleString()} km<sup>2</sup>`);//} `);
     $('#country-info').show();
     $('#my-modal').modal('show');
 
