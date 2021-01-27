@@ -1,5 +1,3 @@
-/* ***** Reset Functions ***** */
-
 // On Location Found
 export let getFoundModal = (lat, lng) => {
     $('.modal-header').addClass('bg-success');
@@ -27,43 +25,11 @@ export let getErrorModal = e => {
 }
 
 // To Display Information
-export let getInfoModal = result => {
-    const country = result.data;
-    // const countryCode = result.data.alpha2Code;
-
-    // double check how code can be minimized, use country where possible
-
-    const countryName = country.name;
-    const nativeName = country.nativeName;
-    const language = country.languages[0];
-    const currency = country.currencies[0];
-
+export let getInfoModal = () => {
     $('#data-body').hide();
-    $('#flag').attr({
-        src: `https://www.countryflags.io/${country.alpha2Code}/shiny/32.png`,
-        alt: countryName
-    });
-    if (countryName.includes(nativeName)) {
-        $(".modal-title").text(nativeName);
-    } else if (countryName != nativeName) {
-        $(".modal-title").text(`${countryName} ( ${nativeName} )`);
-    } else {
-        $(".modal-title").text(countryName).addClass('text-secondary font-weight-bolder mt-1');
-    }
-    $('#capital').text(country.capital);
-    $('#region').text(`${country.region} - ${country.subregion}`);
-    $('#population').text((country.population).toLocaleString());
-    if (language.name != language.nativeName) {
-        $('#language').text(`${language.name} ( ${language.nativeName} )`);
-    } else {
-        $('#language').text(language.name);
-    }
-    $('#currency').text(`${currency.code} ( ${currency.symbol} ) - ${currency.name}`);
-    $('#demonym').text(country.demonym);
-    $('#time-zone').text(country.timezones[0]);
-    $('#intl-code').text(`+${country.callingCodes[0]}`);
-    $('#area').html(`${(country.area).toLocaleString()} km<sup>2</sup>`);//} `);
+    $(".modal-title").addClass('text-secondary font-weight-bolder mt-1');
     $('#country-info').show();
+    $('#info-tab').tab('show');
     $('#my-modal').modal('show');
 
     $('#my-modal').on('hide.bs.modal', resetModal);
@@ -75,6 +41,8 @@ let resetModal = () => {
     $('#flag').attr({ src: '', alt: '' });
     $('.modal-title').text('').removeClass().addClass('modal-title');
     $('#data-body').html('').removeClass();
+    $("#news").empty();
+    $('#exchange-rate').empty();
     $('#country-info').hide();
     $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
 }

@@ -1,6 +1,6 @@
 <?php
 
-$url = 'https://restcountries.eu/rest/v2/alpha/'.$_REQUEST['countryCode'];
+$url = 'https://openexchangerates.org/api/latest.json?app_id=9a230d5fc1924535acbb6abef36112f1';
 
 $executionStartTime = microtime(true);
 
@@ -22,10 +22,10 @@ if ($error) {
 } else {
     $decode = json_decode($response, true);
 
-    $result['data'] = $decode;
+    $result['data'] = $decode['rates'];
     $result['status']['code'] = '200';
     $result['status']['name'] = 'ok';
-    $result['status']['description'] = 'Received from Rest Countries';
+    $result['status']['description'] = 'Received from Open Exchange Rates';
     $result['status']['returnedIn'] = round((microtime(true) - $executionStartTime) * 1000).'ms';
 
     header('Content-Type: application/json; charset=UTF-8');

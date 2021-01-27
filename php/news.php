@@ -1,6 +1,6 @@
 <?php
 
-$url = 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?q='.$_REQUEST['countryName'].'&pageNumber=1&pageSize=5&autoCorrect=true';
+$url = 'https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?q='.$_REQUEST['keyword'].'&pageNumber=1&pageSize=5&autoCorrect=true';
 
 $executionStartTime = microtime(true);
 

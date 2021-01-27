@@ -22,8 +22,55 @@ body,
 }
 
 .row {
-  margin-top: 0.1rem;
+  margin-top: 0.3rem;
 }
+
+.modal-dialog,
+.modal-content {
+  height: 85%;
+  width: 95%;
+}
+
+/* 
+@media only screen and (max-width: 1200px) {
+  .modal-dialog,
+  .modal-content {
+    height: 55%;
+    width: 55%;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .modal-dialog,
+  .modal-content {
+    height: 65%;
+    width: 75%;
+  }
+} 
+
+@media only screen and (min-width: 768px) {
+  .modal-dialog,
+  .modal-content {
+    height: 80%;
+    width: 90%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .modal-dialog,
+    .modal-content {
+      height: 85%;
+      width: 95%;
+    }
+  }
+*/ /* 
+@media only screen and (max-width: 576px) {
+  .modal-dialog,
+  .modal-content {
+    height: 85%;
+    width: 95%;
+  } 
+}*/
+
 /* Pre-Loader */
 #spinner {
   position: fixed;

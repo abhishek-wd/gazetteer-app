@@ -1,13 +1,19 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
+import { getCountryList } from './calls/countryList.js';
+import { getReverseGeocode } from './calls/reverseGeocode.js';
+import { getCountryInfo } from './calls/countryInfo.js';
+import { getNews } from './calls/news.js';
+import { getExchangeRate } from './calls/exchangeRate.js';
 import { boundStyle } from './helper/styles.js';
+import { sanitizeName } from './helper/sanitizeName.js';
 import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
-import { getCountryList, getCountryCode, getCountryBounds, reverseGeocode, getCountryInfo, getNews } from './ajaxCalls.js';
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
-    result.forEach(country => {
+    let countries = result.map(el => el.properties.name).sort();
+    countries.forEach(country => {
         $("#country").append(new Option(country, country));
-    })
+    });
 });
 
 /* ***** Creating the Map ***** */
@@ -21,23 +27,21 @@ L.DomUtil.setOpacity(map.zoomControl.getContainer(), 0.4);
 
 let bounds = L.featureGroup(); // To store country bounds
 
-// Function to Highlight the Country Bounds
-let highlightBounds = countryCode => {
+// Highlight Country Bounds
+let highlightBounds = countryBounds => {
     bounds.eachLayer(layer => bounds.removeLayer(layer)); //Remove Previous Bounds
 
-    getCountryBounds(countryCode).then(countryBounds => {
-        bounds.addLayer(L.geoJSON(countryBounds, { style: boundStyle }));
-        map.fitBounds(bounds.getBounds());
-        map.addLayer(bounds); // Testing Phase
-    });
+    bounds.addLayer(L.geoJSON(countryBounds, { style: boundStyle }));
+    map.fitBounds(bounds.getBounds());
+    map.addLayer(bounds);
 }
 
 // Get Modal Containing Country Info
 let displayInfo = countryCode => {
-    getCountryInfo(countryCode).then(result => {
-        getInfoModal(result);
-        getNews(result.data.name);
-        // setTimeout(() => $('#myModal').modal('hide'), 2000);
+    getCountryInfo(countryCode).then(country => {
+        getExchangeRate(country.currencies[0].code);
+        // getNews(sanitizeName(country.name)); - API Limit 
+        getInfoModal();
     });
 }
 
@@ -47,34 +51,37 @@ map.locate({ setView: true, maxZoom: 5 });
 map.on('locationfound', (e) => {
     const lat = e.latlng.lat, lng = e.latlng.lng;
     getFoundModal(lat, lng);
-    reverseGeocode(lat, lng).then(countryCode => {
-        highlightBounds(countryCode);
-        displayInfo(countryCode);
+    getReverseGeocode(lat, lng).then(countryCode => {
+        getCountryList().then(result => {
+            let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
+            highlightBounds(countryBounds);
+            displayInfo(countryCode);
+        });
     });
-    // map.addLayer(bounds);
 });
 
 map.on('locationerror', getErrorModal);
-
-
-/* ***** Click a Country on Map ***** */
-map.on('click', e => {
-    // reverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
-    //     highlightBounds(countryCode);
-    //     displayInfo(countryCode);
-    // });
-    // Just to check modal
-    $('#my-modal').modal('show');
-});
-
 
 /* ***** Select Country from Dropdown ***** */
 $('#country').change(() => {
     let countryName = $('#country').val();
 
-    getCountryCode(countryName).then(countryCode => {
-        highlightBounds(countryCode);
-        displayInfo(countryCode);
+    getCountryList().then(result => {
+        let countryBounds = result.filter(el => el.properties.name == countryName);
+        highlightBounds(countryBounds);
+        displayInfo(countryBounds[0].properties.iso_a2);
+    })
+});
+
+/* ***** Click a Country on Map ***** */
+map.on('click', e => {
+    getReverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
+        getCountryList().then(result => {
+            let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
+            highlightBounds(countryBounds);
+            displayInfo(countryCode);
+        });
     });
-    map.addLayer(bounds);
+    // Just to check modal
+    // $('#my-modal').modal('show');
 });
