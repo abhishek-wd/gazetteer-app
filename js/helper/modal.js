@@ -30,6 +30,8 @@ export let getInfoModal = () => {
     $(".modal-title").addClass('text-secondary font-weight-bolder mt-1');
     $('#country-info').show();
     $('#info-tab').tab('show');
+    $('#rate-pill').tab('show');
+
     $('#my-modal').modal('show');
 
     $('#my-modal').on('hide.bs.modal', resetModal);
@@ -43,6 +45,8 @@ let resetModal = () => {
     $('#data-body').html('').removeClass();
     $("#news").empty();
     $('#exchange-rate').empty();
+    $('#flights').empty();
+    $('#holidays').empty();
     $('#country-info').hide();
     $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
 }

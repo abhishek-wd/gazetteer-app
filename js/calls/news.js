@@ -1,3 +1,5 @@
+import { errorCard } from "../helper/styles.js";
+
 export let getNews = (keyword) => {
 
     // console.log('getting News');
@@ -23,9 +25,10 @@ export let getNews = (keyword) => {
                     $("#news").append(div);
                 });
             } else {
-                const title = $("<h4>").text("Unable to Fetch News. Please Try Again!").addClass('alert-heading');
-                const div = $("<div>").addClass("alert alert-danger").append(title);
-                $("#news").append(div);
+                // const title = $("<h4>").text("Unable to Fetch News. Please Try Again!").addClass('alert-heading');
+                // const div = $("<div>").addClass("alert alert-danger").append(title);
+                // $("#news").append(div);
+                $("#news").append(errorCard('Error!', 'News'));
             }
         },
         error: (jqXHR, textStatus, errorThrown) => {
@@ -35,5 +38,5 @@ export let getNews = (keyword) => {
                 console.error(`News Not Found: ${textStatus} - ${errorThrown}`);
             }
         }
-    })
+    });
 }

@@ -1,12 +1,15 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
-import { getCountryList } from './calls/countryList.js';
-import { getReverseGeocode } from './calls/reverseGeocode.js';
-import { getCountryInfo } from './calls/countryInfo.js';
-import { getNews } from './calls/news.js';
-import { getExchangeRate } from './calls/exchangeRate.js';
 import { boundStyle } from './helper/styles.js';
 import { sanitizeName } from './helper/sanitizeName.js';
 import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
+
+import { getCountryList } from './calls/countryList.js';
+import { getReverseGeocode } from './calls/reverseGeocode.js';
+import { getCountryInfo } from './calls/countryInfo.js';
+import { getHolidays } from './calls/holidays.js';
+import { getNews } from './calls/news.js';
+import { getExchangeRate } from './calls/exchangeRate.js';
+import { getFlightDetails } from './calls/flights.js'
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -40,7 +43,9 @@ let highlightBounds = countryBounds => {
 let displayInfo = countryCode => {
     getCountryInfo(countryCode).then(country => {
         getExchangeRate(country.currencies[0].code);
-        // getNews(sanitizeName(country.name)); - API Limit 
+        getHolidays(country.alpha2Code);
+        getFlightDetails('NP');
+        getNews(sanitizeName(country.name)); // - Watch out for API Limit 
         getInfoModal();
     });
 }
