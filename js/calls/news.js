@@ -2,8 +2,6 @@ import { errorCard } from "../helper/styles.js";
 
 export let getNews = (keyword) => {
 
-    // console.log('getting News');
-    // console.log(keyword);
     return $.ajax({
         type: "POST",
         url: "php/news.php",
@@ -36,6 +34,7 @@ export let getNews = (keyword) => {
                 console.debug(`Bad Request: ${jqXHR.responseText}`);
             } else {
                 console.error(`News Not Found: ${textStatus} - ${errorThrown}`);
+                $("#news").append(errorCard('Error!', 'News'));
             }
         }
     });

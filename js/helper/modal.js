@@ -7,8 +7,8 @@ export let getFoundModal = (lat, lng) => {
     $('.modal-footer button').addClass('btn-outline-success');
     $('#my-modal').modal('show');
 
-    setTimeout(() => $('#my-modal').modal('hide'), 2000);
-    $('#my-modal').on('hide.bs.modal', resetModal);
+    // setTimeout(() => $('#my-modal').modal('hide'), 2000);
+    // $('#my-modal').on('hide.bs.modal', resetModal);
 }
 
 // On Location Error
@@ -21,11 +21,12 @@ export let getErrorModal = e => {
     $('#my-modal').modal('show');
 
     setTimeout(() => $('#my-modal').modal('hide'), 5000);
-    $('#my-modal').on('hide.bs.modal', resetModal);
+    // $('#my-modal').on('hide.bs.modal', resetModal);
 }
 
 // To Display Information
 export let getInfoModal = () => {
+    // $('#my-modal').on('show.bs.modal', resetModal);
     $('#data-body').hide();
     $(".modal-title").addClass('text-secondary font-weight-bolder mt-1');
     $('#country-info').show();
@@ -34,19 +35,25 @@ export let getInfoModal = () => {
 
     $('#my-modal').modal('show');
 
-    $('#my-modal').on('hide.bs.modal', resetModal);
+    // $('#my-modal').on('hide.bs.modal', resetModal);
 }
 
 // Reset Modal
-let resetModal = () => {
-    $('.modal-header').removeClass().addClass('modal-header');
+export let resetModal = () => {
+    // $('.modal-header').removeClass().addClass('modal-header');
     $('#flag').attr({ src: '', alt: '' });
     $('.modal-title').text('').removeClass().addClass('modal-title');
     $('#data-body').html('').removeClass();
-    $("#news").empty();
+    $('.nav-link').removeClass('disabled');
+
+    // $('#info').empty();
     $('#exchange-rate').empty();
     $('#flights').empty();
     $('#holidays').empty();
+    $("#news").empty();
+
     $('#country-info').hide();
     $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
+
+    alert('modal reset completed')
 }

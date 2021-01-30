@@ -1,3 +1,5 @@
+import { errorCard } from "../helper/styles.js";
+
 export let getCountryInfo = (countryCode) => {
     return $.ajax({
         type: "POST",
@@ -6,12 +8,22 @@ export let getCountryInfo = (countryCode) => {
         data: {
             countryCode
         }, success: (result) => {
-            if (result.status.name == "ok") {
+            if (result.data.message == 'Not Found') {
+                $('#content').hide();
+                $("#info").append(errorCard('Unexpected Error!', 'Country Details'));
+                $('#info-tab').tab('show');
+                $(".nav-link").addClass('disabled');
+            } else if (result.status.name == "ok") {
+                $("#info #error-card").remove();
+                // $('.modal-title').text('').removeClass().addClass('modal-title');
+                $('.modal-header').removeClass().addClass('modal-header');
+
                 const country = result.data;
                 const countryName = country.name;
                 const nativeName = country.nativeName;
                 const language = country.languages[0];
                 const currency = country.currencies[0];
+                const area = country.area;
 
                 $('#flag').attr({
                     src: `https://www.countryflags.io/${country.alpha2Code}/shiny/32.png`,
@@ -49,8 +61,14 @@ export let getCountryInfo = (countryCode) => {
                 $('#population').text((country.population).toLocaleString());
                 $('#demonym').text(country.demonym);
                 $('#intl-code').text(`+${country.callingCodes[0]}`);
-                $('#area').html(`${(country.area).toLocaleString()} km<sup>2</sup>`);
+                if (area) {
+                    $('#area').html(`${(area).toLocaleString()} km<sup>2</sup>`);
+                } else {
+                    $('#area').text("Disputed");
+                }
                 $('#co-ord').html(`Latitude: ${(country.latlng[0]).toFixed(2)}, Longitude: ${(country.latlng[1]).toFixed(2)}`);
+
+                $('#content').show();
             }
         }, error: (jqXHR, textStatus, errorThrown) => {
             if (jqXHR.status && jqXHR.status == 400) {

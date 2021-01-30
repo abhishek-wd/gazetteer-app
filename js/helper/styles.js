@@ -15,7 +15,7 @@ export let errorCard = (err, pillName) => {
     const body = $("<p>").addClass("card-text").text(`Unable to fetch "${pillName}". Something went wrong!`);
     const bodyDiv = $("<div>").addClass("card-body").append(body);
     const headerDiv = $("<div>").addClass("card-header").text(err);
-    const outerDiv = $("<div>").addClass("card text-white bg-danger mb-3").append(headerDiv, bodyDiv);
-    return $("<div>").addClass("col-12").append(outerDiv);
+    const outerDiv = $("<div>").addClass("card text-white bg-danger").append(headerDiv, bodyDiv);
+    return $("<div>").attr("id", "error-card").addClass("col-12").append(outerDiv);
 }
 

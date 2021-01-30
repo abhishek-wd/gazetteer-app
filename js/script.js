@@ -1,7 +1,7 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
 import { boundStyle } from './helper/styles.js';
 import { sanitizeName } from './helper/sanitizeName.js';
-import { getFoundModal, getErrorModal, getInfoModal } from './helper/modal.js';
+import { getFoundModal, getErrorModal, getInfoModal, resetModal } from './helper/modal.js';
 
 import { getCountryList } from './calls/countryList.js';
 import { getReverseGeocode } from './calls/reverseGeocode.js';
@@ -42,10 +42,13 @@ let highlightBounds = countryBounds => {
 // Get Modal Containing Country Info
 let displayInfo = countryCode => {
     getCountryInfo(countryCode).then(country => {
-        getExchangeRate(country.currencies[0].code);
-        getHolidays(country.alpha2Code);
-        getFlightDetails('NP');
-        getNews(sanitizeName(country.name)); // - Watch out for API Limit 
+        console.log(country);
+        if (country.status != 404) {
+            getExchangeRate(country.currencies[0].code);
+            getHolidays(country.alpha2Code);
+            getFlightDetails('NP');
+            getNews(sanitizeName(country.name));
+        }
         getInfoModal();
     });
 }
@@ -69,6 +72,8 @@ map.on('locationerror', getErrorModal);
 
 /* ***** Select Country from Dropdown ***** */
 $('#country').change(() => {
+    // $('#my-modal').on('show.bs.modal', resetModal);
+    resetModal();
     let countryName = $('#country').val();
 
     getCountryList().then(result => {
@@ -80,13 +85,13 @@ $('#country').change(() => {
 
 /* ***** Click a Country on Map ***** */
 map.on('click', e => {
-    getReverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
-        getCountryList().then(result => {
-            let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
-            highlightBounds(countryBounds);
-            displayInfo(countryCode);
-        });
-    });
+    // getReverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
+    //     getCountryList().then(result => {
+    //         let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
+    //         highlightBounds(countryBounds);
+    //         displayInfo(countryCode);
+    //     });
+    // });
     // Just to check modal
-    // $('#my-modal').modal('show');
+    $('#my-modal').modal('show');
 });
