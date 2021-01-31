@@ -1,15 +1,15 @@
 // On Location Found
-export let getFoundModal = (lat, lng) => {
-    $('.modal-header').addClass('bg-success');
-    $('.modal-title').text('Location Detected');
-    $('#data-body').html(`Your Current Location: <br> Latitude: ${lat} <br> 
-        Longitude:${lng}`).addClass('text-success');
-    $('.modal-footer button').addClass('btn-outline-success');
-    $('#my-modal').modal('show');
+// export let getFoundModal = (lat, lng) => {
+//     $('.modal-header').addClass('bg-success');
+//     $('.modal-title').text('Location Detected');
+//     $('#data-body').html(`Your Current Location: <br> Latitude: ${lat} <br> 
+//         Longitude:${lng}`).addClass('text-success');
+//     $('.modal-footer button').addClass('btn-outline-success');
+//     $('#my-modal').modal('show');
 
-    // setTimeout(() => $('#my-modal').modal('hide'), 2000);
-    // $('#my-modal').on('hide.bs.modal', resetModal);
-}
+//     // setTimeout(() => $('#my-modal').modal('hide'), 2000);
+//     // $('#my-modal').on('hide.bs.modal', resetModal);
+// }
 
 // On Location Error
 export let getErrorModal = e => {
@@ -55,5 +55,5 @@ export let resetModal = () => {
     $('#country-info').hide();
     $('.modal-footer button').removeClass().addClass('btn btn-outline-secondary btn-default');
 
-    alert('modal reset completed')
+    // alert('modal reset completed')// For Testing Only 
 }

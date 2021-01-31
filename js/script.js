@@ -1,7 +1,7 @@
 import { mainMap, baseMaps } from './helper/mapLayers.js';
 import { boundStyle } from './helper/styles.js';
 import { sanitizeName } from './helper/sanitizeName.js';
-import { getFoundModal, getErrorModal, getInfoModal, resetModal } from './helper/modal.js';
+import { getErrorModal, getInfoModal, resetModal } from './helper/modal.js';
 
 import { getCountryList } from './calls/countryList.js';
 import { getReverseGeocode } from './calls/reverseGeocode.js';
@@ -10,6 +10,7 @@ import { getHolidays } from './calls/holidays.js';
 import { getNews } from './calls/news.js';
 import { getExchangeRate } from './calls/exchangeRate.js';
 import { getFlightDetails } from './calls/flights.js'
+import { getIataCode } from './calls/iataCode.js';
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -42,10 +43,11 @@ let highlightBounds = countryBounds => {
 // Get Modal Containing Country Info
 let displayInfo = countryCode => {
     getCountryInfo(countryCode).then(country => {
-        console.log(country);
+        // console.log(country);
         if (country.status != 404) {
             getExchangeRate(country.currencies[0].code);
             getHolidays(country.alpha2Code);
+            getIataCode(country.capital);
             getFlightDetails('NP');
             getNews(sanitizeName(country.name));
         }
@@ -57,9 +59,9 @@ let displayInfo = countryCode => {
 map.locate({ setView: true, maxZoom: 5 });
 
 map.on('locationfound', (e) => {
-    const lat = e.latlng.lat, lng = e.latlng.lng;
-    getFoundModal(lat, lng);
-    getReverseGeocode(lat, lng).then(countryCode => {
+    // const lat = e.latlng.lat, lng = e.latlng.lng;
+    // getFoundModal(lat, lng);
+    getReverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
         getCountryList().then(result => {
             let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
             highlightBounds(countryBounds);

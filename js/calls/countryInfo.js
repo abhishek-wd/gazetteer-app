@@ -8,6 +8,7 @@ export let getCountryInfo = (countryCode) => {
         data: {
             countryCode
         }, success: (result) => {
+            // console.log(result.data);
             if (result.data.message == 'Not Found') {
                 $('#content').hide();
                 $("#info").append(errorCard('Unexpected Error!', 'Country Details'));
