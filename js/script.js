@@ -44,11 +44,11 @@ let highlightBounds = countryBounds => {
 let displayInfo = countryCode => {
     getCountryInfo(countryCode).then(country => {
         // console.log(country);
+        const countryCode = country.alpha2Code;
         if (country.status != 404) {
             getExchangeRate(country.currencies[0].code);
-            getHolidays(country.alpha2Code);
-            getIataCode(country.capital);
-            getFlightDetails('NP');
+            getHolidays(countryCode);
+            getIataCode(countryCode, country.capital).then(airports => getFlightDetails(airports));
             getNews(sanitizeName(country.name));
         }
         getInfoModal();

@@ -8,7 +8,6 @@ export let getCountryInfo = (countryCode) => {
         data: {
             countryCode
         }, success: (result) => {
-            // console.log(result.data);
             if (result.data.message == 'Not Found') {
                 $('#content').hide();
                 $("#info").append(errorCard('Unexpected Error!', 'Country Details'));
@@ -16,7 +15,6 @@ export let getCountryInfo = (countryCode) => {
                 $(".nav-link").addClass('disabled');
             } else if (result.status.name == "ok") {
                 $("#info #error-card").remove();
-                // $('.modal-title').text('').removeClass().addClass('modal-title');
                 $('.modal-header').removeClass().addClass('modal-header');
 
                 const country = result.data;

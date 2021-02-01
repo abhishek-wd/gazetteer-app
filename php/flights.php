@@ -39,7 +39,7 @@ if ($error) {
     echo 'cURL Error #:'.$error;
 } else {
     $decode = json_decode($response, true);
-    $result['data'] = $decode['data'];
+    $result['data'] = $decode;
     $result['status']['code'] = '200';
     $result['status']['name'] = 'ok';
     $result['status']['description'] = 'Received from Amadeus';
