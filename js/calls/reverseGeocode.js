@@ -7,7 +7,6 @@ export let getReverseGeocode = (lat, lng) => {
             lat, lng
         },
         success: result => {
-            console.log(result);
             if (result.status.message == 'OK') {
                 let timezone = result.data[0].annotations.timezone;
                 $('#time-zone').text(`${timezone.short_name} ${timezone.offset_string}`);
