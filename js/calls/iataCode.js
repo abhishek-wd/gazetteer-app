@@ -2,7 +2,7 @@ export let getIataCode = (countryCode, capital) => {
 
     return $.ajax({
         type: "GET",
-        url: "php/iata.php",
+        url: "php/iataCode.php",
         dataType: 'json',
         data: {
             countryCode

@@ -46,7 +46,6 @@ export let resetModal = () => {
     $('#data-body').html('').removeClass();
     $('.nav-link').removeClass('disabled');
 
-    // $('#info').empty();
     $('#exchange-rate').empty();
     $('#flights').empty();
     $('#holidays').empty();

@@ -59,8 +59,6 @@ let displayInfo = countryCode => {
 map.locate({ setView: true, maxZoom: 5 });
 
 map.on('locationfound', (e) => {
-    // const lat = e.latlng.lat, lng = e.latlng.lng;
-    // getFoundModal(lat, lng);
     getReverseGeocode(e.latlng.lat, e.latlng.lng).then(countryCode => {
         getCountryList().then(result => {
             let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
@@ -94,6 +92,6 @@ map.on('click', e => {
     //         displayInfo(countryCode);
     //     });
     // });
-    // Just to check modal
+    // To check modal
     $('#my-modal').modal('show');
 });

@@ -24,7 +24,7 @@ export let getFlightDetails = (iataCode) => {
         $("#flights").append(errorCard('Unsupported Route! Covid Restriction', 'Flight Details'));
     } else {
         return $.ajax({
-            url: 'php/skyScanner.php',
+            url: 'php/flights.php',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -33,43 +33,15 @@ export let getFlightDetails = (iataCode) => {
                 arrivalDate
             },
             success: result => {
-                console.log(result);
+                // console.log(result);
                 const flight = result.data;
                 const quote = flight.Quotes[0];
 
                 if (result.status.name == "ok" && flight.Carriers.length != 0) {
 
-
-                    // const flight = result.data[0];
-                    // const origin = flight.origin.iataCode;
-                    // const destination = flight.destination.iataCode;
-
                     const img = "<img src='images/flights/flight.svg' class='img-fluid' height='auto' width='24px'/>";
                     let row = $("<div>").addClass("row");
 
-                    // const getCard = (priceBand, price) => {
-                    //     let title = $("<h5>").addClass("card-title").text(`£${price}`);
-                    //     let bodyDiv = $("<div>").addClass("card-body text-center px-md-3").append(title);
-
-                    //     let headerDiv = $("<div>").addClass("card-header text-center px-md-3").html(`${priceBand}`);
-
-                    //     let outerDiv = $("<div>").addClass("card text-white bg-info mb-3").append(headerDiv, bodyDiv);
-                    //     let col = $("<div>").addClass("col-md-4 px-md-2 col-12").append(outerDiv);
-
-                    //     $(row).append(col);
-                    // }
-
-                    // let priceCard = () => flight.priceMetrics.forEach((el) => {
-                    //     let priceBand = el.quartileRanking;
-                    //     let price = el.amount;
-                    //     if (priceBand == 'MINIMUM') {
-                    //         getCard('Minimum', price);
-                    //     } else if (priceBand == 'MEDIUM') {
-                    //         getCard('Average', price);
-                    //     } else if (priceBand == 'MAXIMUM') {
-                    //         getCard('Maximum', price);
-                    //     }
-                    // });
                     let priceCard = () => {
                         let headerDiv = $("<div>").addClass("card-header text-center px-md-3").text("Cheapest");
 
@@ -83,31 +55,15 @@ export let getFlightDetails = (iataCode) => {
                     }
 
                     let flightDetails = () => {
-                        let headerDiv = $("<div>").addClass("card-header text-center px-md-3").html(`${flight.Carriers[0].Name}`);
+                        let stopOver = quote.Direct ? "Direct" : "1 Stop";
+                        let headerDiv = $("<div>").addClass("card-header text-center px-md-3")
+                            .html(`${flight.Carriers[0].Name} [${stopOver}]`);
 
-                        let outboudDate = () => {
-                            const date = quote.OutboundLeg.DepartureDate;
-                            // const day = outDate.getDay();
-                            console.log(typeof date);
-                            console.log(date);
-                            return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-                        }
+                        let outboundDate = $("<p>").addClass("card-text mb-2").html(`Departure: ${departureDate}`);
+                        let inboundDate = $("<p>").addClass("card-text mb-1").html(`Return: ${arrivalDate}`);
+                        let bodyDiv = $("<div>").addClass("card-body px-md-3 py-md-2").append(outboundDate, inboundDate);
 
-                        let inboudDate = () => {
-                            const outDate = Date.parse(quote.OutboundLeg.DepartureDate);
-                            // const day = outDate.getDay();
-                            return outDate.getFullYear() + "/" + (outDate.getMonth() + 1) + "/" + outDate.getDate();
-                        }
-
-
-                        // let title = $("<h5>").addClass("card-title")
-                        //     .html(`${flight.Currencies[0].Symbol}${flight.Quotes[0].MinPrice}`);
-                        let outboundDate = $("<p>").addClass("card-text").html(`Departure Date: ${departureDate}`);
-                        let inboundDate = $("<p>").addClass("card-text").html(`Return Date: ${arrivalDate}`);
-                        let stopOver = $("<p>").addClass("card-text").html(`Layover: ${quote.Direct ? "Direct" : "1 Stop"}`);
-                        let bodyDiv = $("<div>").addClass("card-body px-md-3").append(outboundDate, inboundDate, stopOver);
-
-                        let outerDiv = $("<div>").addClass("card text-white bg-info mb-3").append(headerDiv, bodyDiv);
+                        let outerDiv = $("<div>").addClass("card text-white bg-info mb-1").append(headerDiv, bodyDiv);
                         let col = $("<div>").addClass("col-md-8 px-md-2 col-12").append(outerDiv);
                         $(row).append(col);
                     }
@@ -118,10 +74,8 @@ export let getFlightDetails = (iataCode) => {
                     $(row).append(flightDetails()).append(priceCard());
                     let contentDiv = $("<div>").addClass("card-body").append(row);
 
-                    // let flightName = $("<small>").addClass("pb-2").html(` [${flight.Carriers[0].Name}]`);
                     let headerDiv = $("<div>").addClass("card-header")
                         .html(`${flight.Places[1].Name} ${img} ${flight.Places[0].Name}`);
-                    // .append(flightName);
 
                     let outerDiv = $("<div>").addClass("card text-white bg-info mb-3").append(headerDiv, contentDiv, footer);
                     let col = $("<div>").addClass("col-12").append(outerDiv);
