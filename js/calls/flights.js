@@ -1,7 +1,6 @@
 import { errorCard } from "../helper/styles.js";
 
 export let getFlightDetails = (iataCode) => {
-
     let setDate = (date, days) => {
         let result = new Date(date);
         result.setDate(result.getDate() + days);

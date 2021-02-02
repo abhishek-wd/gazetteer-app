@@ -6,8 +6,14 @@ $decode = json_decode($data, true);
 
 $airport = [];
 
+// foreach ($decode as $value) {
+//     if (null != $value['iata_code'] && 'large_airport' == $value['type'] && $value['iso_country'] == $_REQUEST['countryCode']) {
+//         array_push($airport, $value);
+//     }
+// }
+
 foreach ($decode as $value) {
-    if (null != $value['iata_code'] && 'large_airport' == $value['type'] && $value['iso_country'] == $_REQUEST['countryCode']) {
+    if ($value['iso_country'] == $_REQUEST['countryCode'] && null != $value['municipality']) {
         array_push($airport, $value);
     }
 }

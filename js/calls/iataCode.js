@@ -20,17 +20,17 @@ export let getIataCode = (countryCode, capital) => {
                 // If name contains accentuated characters
                 const nCapital = capital.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-                validAirport = airports.filter(el => {
-                    if (el.municipality) {
-                        return el;
-                    }
-                });
+                // validAirport = airports.filter(el => {
+                //     if (el.municipality) {
+                //         return el;
+                //     }
+                // });
 
-                airport = validAirport.filter(el => nCapital.includes(el.municipality));
+                airport = airports.filter(el => nCapital.includes(el.municipality));
 
                 // If name doesn't match like in case of Brasil
                 if (airport.length == 0) {
-                    airport = validAirport.filter(el => nCapital.substring(1, 4).includes(el.municipality.substring(1, 4)));
+                    airport = airports.filter(el => nCapital.substring(1, 4).includes(el.municipality.substring(1, 4)));
                 }
 
                 // Checking for international airport
