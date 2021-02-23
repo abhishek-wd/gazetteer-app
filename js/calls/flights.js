@@ -32,7 +32,6 @@ export let getFlightDetails = (iataCode) => {
                 arrivalDate
             },
             success: result => {
-                // console.log(result);
                 const flight = result.data;
                 const quote = flight.Quotes[0];
 

@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
     <!-- Leaflet -->
     <link rel="stylesheet" href="vendors/leaflet/leaflet.css">
+    <!-- Easy Button -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Custom Style -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -37,7 +41,7 @@
             </form>
         </nav>
         <div id="mapId"></div>
-        <div class="modal fade" id="my-modal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -156,7 +160,9 @@
 
     <script src="vendors/jquery/jquery-3.5.1.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/b58aa448cc.js" crossorigin="anonymous"></script>
     <script src="vendors/leaflet/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
     <script>
         $(window).on('load', function () {
             if ($('#spinner').length) {
