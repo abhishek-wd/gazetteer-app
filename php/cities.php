@@ -41,6 +41,8 @@ if ($error) {
 
     function assignCity($city)
     {
+        $cityList = [];
+
         $cityList['countryCode'] = $city['countryCode'];
         $cityList['id'] = $city['id'];
         $cityList['latitude'] = $city['latitude'];
@@ -66,30 +68,33 @@ if ($error) {
 
     if ($categoryCount >= 1) {
         $bigEnd = $bigStart + $categoryCount;
-        $smallStart = $bigEnd;
+        $smallStart = $bigEnd + 1;
         $smallEnd = $smallStart + $categoryCount;
-        $townStart = $smallEnd;
+        $townStart = $smallEnd + 1;
 
         // Allocating Big Cities
         for ($x = $bigStart; $x < $bigEnd; ++$x) {
-            $big_cities[$x] = assignCity($city[$x]);
+            // $big_cities[$x] = assignCity($city[$x]); // Its showing as object
+            array_push($big_cities, assignCity($city[$x]));
         }
 
         // Allocating Small Cities
         for ($x = $smallStart; $x < $smallEnd; ++$x) {
-            $small_cities[$x] = assignCity($city[$x]);
+            // $small_cities[$x] = assignCity($city[$x]);
+            array_push($small_cities, assignCity($city[$x]));
         }
 
         // Allocating Towns
         for ($x = $townStart; $x < $length; ++$x) {
-            $town[$x] = assignCity($city[$x]);
+            // $town[$x] = assignCity($city[$x]);
+            array_push($town, assignCity($city[$x]));
         }
     } else {
         $bigEnd = $length;
     }
 
-    $result['data']['main'] = $main_cities;
     $result['data']['big'] = $big_cities;
+    $result['data']['main'] = $main_cities;
     $result['data']['small'] = $small_cities;
     $result['data']['town'] = $town;
 

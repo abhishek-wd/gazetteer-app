@@ -9,10 +9,54 @@ export let getCities = (countryCode) => {
         data: {
             countryCode
         },
-        success: function (result) {
+        success: result => {
             console.log(result);
-            // return getMarkers(result.data);
+            // const cities = result.data;
+
+            // let mainCityLayer = getMarkers(cities.main);
+            // let bigCityLayer = getMarkers(cities.big);
+            // let smallCityLayer = getMarkers(cities.small);
+            // let townLayer = getMarkers(cities.town);
+
+            // const cityLayers = {
+            //     "Main": mainCityLayer,
+            //     "Big": bigCityLayer,
+            //     "Small": smallCityLayer,
+            //     "Town": townLayer
+            // }
+
+
+
+
         },
         error: (jqXHR, textStatus, errorThrown) => console.error(`Cities Not Found: ${textStatus} - ${errorThrown}`)
-    })//.then(result => getMarkers(result.data));
+    })
+    // .then(result => {
+    //     const cities = result.data;
+
+    //     let mainCityLayer = getMarkers(cities.main);
+    //     let bigCityLayer = getMarkers(cities.big);
+    //     let smallCityLayer = getMarkers(cities.small);
+    //     let townLayer = getMarkers(cities.town);
+
+    //     const cityLayers = {
+    //         "Main": mainCityLayer,
+    //         "Big": bigCityLayer,
+    //         "Small": smallCityLayer,
+    //         "Town": townLayer
+    //     }
+
+    //     return L.control.layers(cityLayers); //collapsed: false cityLayers, { position: 'bottomleft' }
+    //     // return cityControl;
+
+    //     // return cityLayers;
+    // });
 }
+
+
+
+
+
+
+
+

@@ -34,7 +34,7 @@ export let populationButton = L.easyButton({
     }]
 });
 
-export var starButton = L.easyButton({
+export let starButton = L.easyButton({
     position: 'bottomleft',
     states: [{
         icon: 'fa-star',
