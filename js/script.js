@@ -15,6 +15,7 @@ import { getExchangeRate } from './calls/exchangeRate.js';
 import { getFlightDetails } from './calls/flights.js'
 import { getIataCode } from './calls/iataCode.js';
 import { getCities } from './calls/cities.js';
+import { fillCovidData, getCovidData } from './calls/covid.js';
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -23,6 +24,8 @@ getCountryList().then(result => {
         $("#country").append(new Option(country, country));
     });
 });
+
+getCovidData();
 
 /* ***** Creating the Map ***** */
 const map = L.map('mapId', { layers: [mainMap] }).fitWorld();
@@ -36,8 +39,8 @@ L.DomUtil.setOpacity(map.zoomControl.getContainer(), 0.4);
 // Adding the easy buttons
 button.infoButton.addTo(map);
 button.covidButton.addTo(map);
-button.populationButton.addTo(map);
-button.starButton.addTo(map);
+// button.populationButton.addTo(map);
+// button.starButton.addTo(map);
 
 /* ***** Variables and Methods ***** */
 
@@ -48,7 +51,8 @@ let bounds = L.featureGroup(); // To store country bounds
 let highlightBounds = countryBounds => {
     bounds.eachLayer(layer => bounds.removeLayer(layer)); //Remove Previous Bounds
     bounds.addLayer(L.geoJSON(countryBounds, { style: boundStyle }));
-    map.fitBounds(bounds.getBounds());
+    //map.fitBounds(bounds.getBounds());
+    map.flyToBounds(bounds.getBounds());
     map.addLayer(bounds);
 }
 
@@ -106,7 +110,8 @@ $('#country').change(() => {
         const countryCode = countryBounds[0].properties.iso_a2;
         highlightBounds(countryBounds);
         // displayInfo(countryCode);
-        getCities(countryCode).then(result => showCities(result.data));
+        // getCities(countryCode).then(result => showCities(result.data));
+        fillCovidData();
     });
 });
 

@@ -1,4 +1,4 @@
-import { getInfoModal } from "../helper/modal.js";
+import { getInfoModal, getCovidModal } from "../helper/modal.js";
 
 export let infoButton = L.easyButton({
     position: 'bottomleft',
@@ -17,12 +17,13 @@ export let covidButton = L.easyButton({
     states: [{
         icon: 'fa-virus fa-2x',
         title: 'Show Covid-19 Info',
-        onClick: (control) => {
-            // control.state('hide-info');
+        onClick: () => {
+            getCovidModal();
         }
     }]
 });
 
+/*
 export let populationButton = L.easyButton({
     position: 'bottomleft',
     states: [{
@@ -34,6 +35,7 @@ export let populationButton = L.easyButton({
     }]
 });
 
+
 export let starButton = L.easyButton({
     position: 'bottomleft',
     states: [{
@@ -43,3 +45,4 @@ export let starButton = L.easyButton({
         },
     }]
 });
+*/

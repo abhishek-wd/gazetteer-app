@@ -56,3 +56,7 @@ export let resetModal = () => {
 
     // alert('modal reset completed')// For Testing Only 
 }
+
+export let getCovidModal = () => {
+    $('#details-modal').modal('show');
+}
