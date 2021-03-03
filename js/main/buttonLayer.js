@@ -1,4 +1,4 @@
-import { getInfoModal } from "./modal.js";
+import { getInfoModal } from "../helper/modal.js";
 
 export let infoButton = L.easyButton({
     position: 'bottomleft',

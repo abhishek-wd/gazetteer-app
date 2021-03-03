@@ -1,8 +1,10 @@
-import { mainMap, baseMaps } from './helper/mapLayers.js';
+import { getCitiesMarkers } from './main/cityMarker.js';
+import { mainMap, baseMaps } from './main/mapLayers.js';
+import * as button from './main/buttonLayer.js';
+
 import { boundStyle } from './helper/styles.js';
 import { sanitizeName } from './helper/sanitizeName.js';
 import { getErrorModal, getInfoModal, resetModal } from './helper/modal.js';
-import * as button from './helper/buttonLayer.js';
 
 import { getCountryList } from './calls/countryList.js';
 import { getReverseGeocode } from './calls/reverseGeocode.js';
@@ -13,9 +15,6 @@ import { getExchangeRate } from './calls/exchangeRate.js';
 import { getFlightDetails } from './calls/flights.js'
 import { getIataCode } from './calls/iataCode.js';
 import { getCities } from './calls/cities.js';
-import { getCitiesMarkers, getMarkers } from './helper/cityMarker.js';
-// import { cityLayers } from './helper/cityMarker.js';
-
 
 /* ***** Creating the Select Menu ***** */
 getCountryList().then(result => {
@@ -28,23 +27,7 @@ getCountryList().then(result => {
 /* ***** Creating the Map ***** */
 const map = L.map('mapId', { layers: [mainMap] }).fitWorld();
 
-const layerControl = L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
-let cityControl = L.control.layers(null, null, { position: 'bottomright', collapsed: false });
-
-/* Perfectly Working
-// Feature Groups for different types of Cities
-let mainCityLayer = L.featureGroup();
-let bigCityLayer = L.featureGroup();
-let smallCityLayer = L.featureGroup();
-let townLayer = L.featureGroup();
-
-// Function to remove existing layers
-let checkLayer = (layer) => {
-    if (map.hasLayer(layer)) {
-        map.removeLayer(layer);
-    }
-}
-*/
+L.control.layers(baseMaps, null, { position: 'bottomleft' }).addTo(map);
 
 // Changing the default position of Zoom Control and Opacity
 map.zoomControl.setPosition('bottomright');
@@ -56,14 +39,14 @@ button.covidButton.addTo(map);
 button.populationButton.addTo(map);
 button.starButton.addTo(map);
 
+/* ***** Variables and Methods ***** */
 
-
+let cityControl = L.control.layers(null, null, { position: 'bottomright', collapsed: false });
 let bounds = L.featureGroup(); // To store country bounds
 
 // Highlight Country Bounds
 let highlightBounds = countryBounds => {
     bounds.eachLayer(layer => bounds.removeLayer(layer)); //Remove Previous Bounds
-
     bounds.addLayer(L.geoJSON(countryBounds, { style: boundStyle }));
     map.fitBounds(bounds.getBounds());
     map.addLayer(bounds);
@@ -83,6 +66,20 @@ let displayInfo = countryCode => {
     });
 }
 
+// Show cities on map
+let showCities = cities => {
+    // Remove pre-existing Control and it's title
+    map.removeControl(cityControl);
+    $("#cityTitle").remove();
+
+    let cityLayers = getCitiesMarkers(cities, map);
+    cityControl = L.control.layers(null, cityLayers, { position: 'bottomright', collapsed: false }).addTo(map);
+
+    //Title for the city control at top of layer control
+    $('<h6 id="cityTitle">Cities</h6>')
+        .insertBefore('div.leaflet-control-layers-expanded>section.leaflet-control-layers-list>div.leaflet-control-layers-base');
+}
+
 /* ***** Getting User Location ***** */
 map.locate({ setView: true, maxZoom: 5 });
 
@@ -92,6 +89,7 @@ map.on('locationfound', (e) => {
             let countryBounds = result.filter(el => el.properties.iso_a2 == countryCode);
             highlightBounds(countryBounds);
             // displayInfo(countryCode);
+            // getCities(countryCode).then(result => showCities(result.data));
         });
     });
 });
@@ -107,46 +105,8 @@ $('#country').change(() => {
         let countryBounds = result.filter(el => el.properties.name == countryName);
         const countryCode = countryBounds[0].properties.iso_a2;
         highlightBounds(countryBounds);
-
         // displayInfo(countryCode);
-
-        getCities(countryCode).then(result => {
-
-            const cities = result.data;
-
-            // Remove pre-existing Control and Layers
-            map.removeControl(cityControl);
-            $("#cityTitle").remove();
-
-            /* Perfectly Working
-            checkLayer(mainCityLayer);
-            checkLayer(bigCityLayer);
-            checkLayer(smallCityLayer);
-            checkLayer(townLayer);
-
-            mainCityLayer = getMarkers(cities.main);
-            map.addLayer(mainCityLayer);
-            bigCityLayer = getMarkers(cities.big);
-            smallCityLayer = getMarkers(cities.small);
-            townLayer = getMarkers(cities.town);
-
-            const cityLayers = {
-                "Main": mainCityLayer,
-                "Big": bigCityLayer,
-                "Small": smallCityLayer,
-                "Town": townLayer
-            } */
-
-            let cityLayers = getCitiesMarkers(cities, map);
-
-            cityControl = L.control.layers(null, cityLayers, { position: 'bottomright', collapsed: false });
-            cityControl.addTo(map);
-
-            //Title for the city control at top of layer control
-            $('<h6 id="cityTitle">Cities</h6>')
-                .insertBefore('div.leaflet-control-layers-expanded>section.leaflet-control-layers-list>div.leaflet-control-layers-base');
-        });
-        // cityLayer.addTo(map); // This won't work
+        getCities(countryCode).then(result => showCities(result.data));
     });
 });
 
