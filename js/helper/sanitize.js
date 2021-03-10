@@ -84,3 +84,14 @@ export let sanitizeName = (countryName) => {
     }
     return countryName;
 }
+
+export let covidName = (countryName) => {
+    if (countryName === 'United Kingdom') {
+        return 'UK';
+    } else if (countryName === 'United States') {
+        return 'USA';
+    } else if (countryName === 'United Arab Emirates') {
+        return 'UAE';
+    }
+    return countryName;
+}

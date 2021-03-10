@@ -23,12 +23,18 @@ body,
 
 .row {
   margin-top: 0.3rem;
+  font-weight: bold;
 }
 
 .modal-dialog,
 .modal-content {
   height: 85%;
   width: 95%;
+}
+
+#details-modal,
+#details-modal > .modal-dialog {
+  height: auto;
 }
 
 .fa {

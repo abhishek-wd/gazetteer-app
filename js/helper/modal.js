@@ -58,5 +58,16 @@ export let resetModal = () => {
 }
 
 export let getCovidModal = () => {
+    $('.modal-header').removeClass().addClass('modal-header');
+    // $('#country-name').text('Please Select a Country.').addClass('text-secondary font-weight-bolder ml-3');
     $('#details-modal').modal('show');
+}
+
+export let resetCovidModal = () => {
+    $('#new-cases').text("N/A");
+    $('#new-deaths').text("N/A");
+    $('#active-cases').text("N/A");
+    $('#total-cases').text("N/A");
+    $('#total-deaths').text("N/A");
+    $('#total-recovered').text("N/A");
 }

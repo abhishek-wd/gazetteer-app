@@ -3,8 +3,8 @@ import { mainMap, baseMaps } from './main/mapLayers.js';
 import * as button from './main/buttonLayer.js';
 
 import { boundStyle } from './helper/styles.js';
-import { sanitizeName } from './helper/sanitizeName.js';
-import { getErrorModal, getInfoModal, resetModal } from './helper/modal.js';
+import { sanitizeName } from './helper/sanitize.js';
+import { getErrorModal, getInfoModal, resetModal, resetCovidModal } from './helper/modal.js';
 
 import { getCountryList } from './calls/countryList.js';
 import { getReverseGeocode } from './calls/reverseGeocode.js';
@@ -103,6 +103,7 @@ map.on('locationerror', getErrorModal);
 /* ***** Select Country from Dropdown ***** */
 $('#country').change(() => {
     resetModal();
+    resetCovidModal();
     let countryName = $('#country').val();
 
     getCountryList().then(result => {
@@ -111,7 +112,7 @@ $('#country').change(() => {
         highlightBounds(countryBounds);
         // displayInfo(countryCode);
         // getCities(countryCode).then(result => showCities(result.data));
-        fillCovidData();
+        fillCovidData(countryName);
     });
 });
 
